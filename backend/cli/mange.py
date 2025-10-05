@@ -1,6 +1,7 @@
 import typer
 import subprocess
 import re
+import yaml
 
 app = typer.Typer()
 
@@ -17,26 +18,71 @@ def init():
         python manage.py init
 
     """
-    # it runs init.sh file
+    # It Runs init.sh File
     result = subprocess.run \
     (
         "bash scripts/init.sh", shell=True, capture_output=True, text=True
     )
     
-    pattern = r"(docker swarm join --token\s[^\n]+)"
+    # Regex Pattern For Command
+    command_pattern = r"(docker swarm join --token\s[^\n]+)"
+    # It Find A Command (docker swarm join --token)
+    command = re.search(command_pattern, result.stdout)
 
-    match = re.search(pattern, result)
     
-    if match:
-        typer.echo(match.group(1))
+    if command:
+        print(command.group(1))
     else:
-        typer.echo('something went wrong')
+        typer.echo('something went wrong!')
  
-    typer.echo(result)
+    typer.echo(typer.style(result.stdout + "\n" , fg=typer.colors.GREEN))
 
+    typer.echo(typer.style(command.group(1), fg=typer.colors.CYAN, bold=True))
+
+ 
+    
+    result_stdout = result.stdout
+
+    # Get IP
+    ip_pattern = r"(\b\d{1,3}(?:\.\d{1,3}){3}:\d{1,5}\b)"
+    ip_match = re.search(ip_pattern, result_stdout)
+
+    # Get Command
+    command_pattern = r"(docker swarm join --token\s[^\n]+)"
+    command_match = re.search(command_pattern, result_stdout)
+
+    if ip_match and command_match:
+        
+        ip = ip_match.group(1)
+        command = command_match.group(1)
+        
+        # Yaml Data
+        data = {'config':
+             {
+                'ip':ip,
+                'init_command':command,
+             }
+            }
+        with open("config.yaml" ,'w') as yml:
+            # Write Data In config.yaml File
+            yaml.dump(data ,yml ,default_flow_style=False , allow_unicode=True)
+            
+
+
+        typer.echo(typer.style("Data saved to comfig.yaml successfully" , fg=typer.colors.BLUE))
+        typer.echo(typer.style(f"IP: {ip}" , fg=typer.colors.BLUE))        
+        typer.echo(typer.style(f"Command: {command}" , fg=typer.colors.BLUE))
+
+    else:
+        typer.echo(typer.style("Could not find IP or command in the output." , fg=typer.colors.RED))
+        
+
+    
+
+    
 @app.command()
 def start():
-    typer.echo("start command")
+    typer.echo("It Works!")
 
 if __name__ == "__main__":
     app()

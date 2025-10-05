@@ -20,5 +20,7 @@ if ! docker info 2>/dev/null | grep -q "Swarm: active"; then
     echo "Initializing Docker Swarm on $IP ($DEV)..."
     docker swarm init --advertise-addr $IP
 else
-    echo "Docker Swarm is already active."
+    docker swarm leave --force
+    docker swarm init --advertise-addr $IP
+
 fi

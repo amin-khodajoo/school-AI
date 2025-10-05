@@ -1,0 +1,4 @@
+config:
+  init_command: docker swarm join --token SWMTKN-1-4r4eqpyu7la4dc19n624dhmr7zmcnyfakwztciduxge4011ktf-cqu7bxoimdxp77fp1bs5cba1g
+    192.168.212.237:2377
+  ip: 192.168.212.237:2377
