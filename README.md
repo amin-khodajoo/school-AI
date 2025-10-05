@@ -1,1 +1,2 @@
 # school-AI
+Hello
