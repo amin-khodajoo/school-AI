@@ -1,0 +1,1 @@
+{"version":3,"sources":["turbopack:///[project]/src/app/page.tsx"],"sourcesContent":["\r\nexport default function Home() {\r\n  return (\r\n    <>\r\n    home\r\n    </>\r\n  );\r\n}\r\n"],"names":[],"mappings":"kRACe,SAAS,IACtB,MACE,CAAA,EAAA,EAAA,GAAA,EAAA,EAAA,QAAA,CAAA,UAAE,QAIN"}

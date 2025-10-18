@@ -1,18 +1,12 @@
 {
   "pages": {
     "/_not-found/page": [
-      "static/chunks/Desktop_school-AI_school-ai_src_app_globals_1444575e.css",
-      "static/chunks/a00c4_next_dist_2a49d65b._.js",
-      "static/chunks/Desktop_school-AI_school-ai_src_app_layout_tsx_f19fa7e2._.js",
-      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_5111003d._.js",
-      "static/chunks/a00c4_next_dist_compiled_react-dom_bb2a9004._.js",
-      "static/chunks/a00c4_next_dist_compiled_next-devtools_index_614b475b.js",
-      "static/chunks/a00c4_next_dist_compiled_adb5ded1._.js",
-      "static/chunks/a00c4_next_dist_client_f9661e85._.js",
-      "static/chunks/a00c4_next_dist_a94a95ec._.js",
-      "static/chunks/a00c4_@swc_helpers_cjs_aa1f2051._.js",
-      "static/chunks/Desktop_school-AI_school-ai_a0ff3932._.js",
-      "static/chunks/turbopack-Desktop_school-AI_school-ai_02b3381d._.js"
+      "static/chunks/dda8a9924fab617c.css",
+      "static/chunks/060f9a97930f3d04.js",
+      "static/chunks/aaea1e64ef7e0faa.js",
+      "static/chunks/f1f22aee18113be1.js",
+      "static/chunks/569f8ca39997ccda.js",
+      "static/chunks/turbopack-11fd2cf0bb7da55d.js"
     ]
   }
 }

@@ -1,0 +1,6 @@
+{
+  "/(auth)/login/page": "/login",
+  "/(auth)/signup/page": "/signup",
+  "/_not-found/page": "/_not-found",
+  "/page": "/"
+}

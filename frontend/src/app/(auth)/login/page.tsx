@@ -1,7 +1,36 @@
 "use client";
 
 import auth from "@/components/auth";
+import { serverUrl } from "@/components/domain";
+import { log } from "console";
 import { useFormik } from "formik";
+
+
+
+// #region test
+const Post = async (number:string) => {
+  const phoneNumber = {"phone_number": `${number}`};
+  
+  try {
+    const response = await fetch(`${serverUrl}/auth/login/step-one/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(phoneNumber)
+    });
+
+    console.log('Status:', response.status);
+    
+    const data = await response.json();
+    console.log('Data:', data);
+    
+    
+    
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+// #endregion
 
 const LoginForm = () => {
   const formik = useFormik({
@@ -9,7 +38,9 @@ const LoginForm = () => {
       phoneNumber: "",
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
+      console.log(values.phoneNumber);
+      Post(values.phoneNumber);
     },
     validationSchema: auth,
   });
