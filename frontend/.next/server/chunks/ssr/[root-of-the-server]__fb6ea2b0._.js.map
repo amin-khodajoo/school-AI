@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
-    {"offset": {"line": 11, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/AMIN/Desktop/school-AI/school-ai/src/app/%28auth%29/signup/page.tsx"],"sourcesContent":["const SignUp = () => {\r\n  return <>SignUp</>;\r\n};\r\n\r\nexport default SignUp;\r\n"],"names":[],"mappings":";;;;;;AAAA,MAAM,SAAS;IACb,qBAAO;kBAAE;;AACX;uCAEe","debugId":null}}]
-}

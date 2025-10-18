@@ -1,0 +1,3 @@
+module.exports=[88143,a=>{"use strict";a.s(["default",()=>e]);var b=a.i(87924),c=a.i(78519),d=a.i(4681);let e=()=>{let a=(0,d.useFormik)({initialValues:{phoneNumber:""},onSubmit:a=>{alert(JSON.stringify(a,null,2))},validationSchema:c.default});return(0,b.jsxs)("form",{onSubmit:a.handleSubmit,children:[(0,b.jsx)("label",{htmlFor:"phoneNumber",children:"Phone Number"}),(0,b.jsx)("input",{id:"phoneNumber",name:"phoneNumber",type:"tel",onChange:a.handleChange,onBlur:a.handleBlur,value:a.values.phoneNumber}),a.touched.phoneNumber&&a.errors.phoneNumber?(0,b.jsx)("div",{style:{color:"red"},children:a.errors.phoneNumber}):null,(0,b.jsx)("button",{type:"submit",children:"Submit"})]})}}];
+
+//# sourceMappingURL=src_app_%28auth%29_login_page_tsx_8f90b54b._.js.map
