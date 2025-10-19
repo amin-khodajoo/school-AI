@@ -1,81 +1,100 @@
 "use client";
 
-import auth from "@/components/auth";
+import { otpValidation, phoneValidation } from "@/components/auth";
 import { serverUrl } from "@/components/domain";
+import axios from "axios";
 import { useFormik } from "formik";
-import { log } from "node:console";
 
-
-// #region test
-const Post = async (number:string) => {
-  const phoneNumber = {"phone_number": `${number}`};
-  
+// #region fetch first-step
+const postPhoneNumber = async (phoneNumber: string) => {
   try {
-    const response = await fetch(`${serverUrl}/auth/register/step-one/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(phoneNumber)
+    const { data } = await axios.post(`${serverUrl}/auth/register/step-one/`, {
+      phone_number: phoneNumber,
     });
-
-    console.log('Status:', response.status);
-    
-    const data = await response.json();
-    console.log('Data:', data);
-    localStorage.setItem("temp_token",data.temp_token)
-    return data;
+    console.log("Data:", data);
+    localStorage.setItem("temp_token", data.temp_token);
+    document.querySelector(".otpFrom")?.classList.remove("hidden");
   } catch (error) {
-    console.error('Error:', error);
-   
-    
-
-
-
-
-
-
-
-
-
-
-
-
-    
+    console.error("Error:", error);
   }
-}
+};
+// #endregion
+// #region fetch first-step
+const postOTP = async (otpCode: string) => {
+  try {
+    const { data } = await axios.post(`${serverUrl}/auth/register/step-two/`, {
+      temp_token: localStorage.getItem("temp_token"),
+      otp_code: otpCode,
+    });
+    console.log("Data:", data);
+    localStorage.setItem("temp_token", data.temp_token);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
 // #endregion
 
 const SignupForm = () => {
-  const formik = useFormik({
+  const phoneFormik = useFormik({
     initialValues: {
       phoneNumber: "",
     },
     onSubmit: (values) => {
-      // alert(JSON.stringify(values, null, 2));
-      console.log(values.phoneNumber);
-      Post(values.phoneNumber);
+      postPhoneNumber(values.phoneNumber);
     },
-    validationSchema: auth,
+    validationSchema: phoneValidation,
+  });
+
+  const otpFormik = useFormik({
+    initialValues: {
+      otp: "",
+    },
+    onSubmit: (values) => {
+      postOTP(values.otp);
+    },
+    validationSchema: otpValidation,
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="phoneNumber">Phone Number</label>
-      <input
-        id="phoneNumber"
-        name="phoneNumber"
-        type="tel"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.phoneNumber}
-      />
-      {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
-        <div style={{ color: "red" }}>{formik.errors.phoneNumber}</div>
-      ) : null}
+    <>
+      {/* #region Get_Phone_Number */}
+      <form onSubmit={phoneFormik.handleSubmit}>
+        <label htmlFor="phoneNumber">Phone Number</label>
+        <input
+          id="phoneNumber"
+          name="phoneNumber"
+          type="tel"
+          onChange={phoneFormik.handleChange}
+          onBlur={phoneFormik.handleBlur}
+          value={phoneFormik.values.phoneNumber}
+        />
+        {phoneFormik.touched.phoneNumber && phoneFormik.errors.phoneNumber ? (
+          <div style={{ color: "red" }}>{phoneFormik.errors.phoneNumber}</div>
+        ) : null}
 
-      <button type="submit">Submit</button>
-    </form>
+        <button type="submit">Submit</button>
+      </form>
+      {/* #endregion */}
+      {/* #region Get_OTP_Code */}
+      <form onSubmit={otpFormik.handleSubmit} className="hidden otpFrom">
+        <label htmlFor="otp">OTP Code</label>
+        <input
+          id="otp"
+          name="otp"
+          type="tel"
+          onChange={otpFormik.handleChange}
+          onBlur={otpFormik.handleBlur}
+          value={otpFormik.values.otp}
+        />
+        {otpFormik.touched.otp && otpFormik.errors.otp ? (
+          <div style={{ color: "red" }}>{otpFormik.errors.otp}</div>
+        ) : null}
+
+        <button type="submit">Submit</button>
+      </form>
+      {/* #endregion */}
+    </>
   );
 };
 
 export default SignupForm;
-
