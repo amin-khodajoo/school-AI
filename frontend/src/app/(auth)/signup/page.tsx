@@ -3,44 +3,48 @@
 import { otpValidation, phoneValidation } from "@/components/auth";
 import { serverUrl } from "@/components/domain";
 import axios from "axios";
+import { setCookie } from "cookies-next";
 import { useFormik } from "formik";
+import { useState } from "react";
 
-// #region fetch first-step
 const postPhoneNumber = async (phoneNumber: string) => {
   try {
-    const { data } = await axios.post(`${serverUrl}/auth/register/step-one/`, {
+    const data = await axios.post(`${serverUrl}/auth/register/step-one/`, {
       phone_number: phoneNumber,
     });
-    console.log("Data:", data);
-    localStorage.setItem("temp_token", data.temp_token);
-    document.querySelector(".otpFrom")?.classList.remove("hidden");
+    console.log("Data:", data.data);
+    localStorage.setItem("temp_token", data.data.temp_token);
+    return data;
   } catch (error) {
     console.error("Error:", error);
   }
 };
-// #endregion
-// #region fetch first-step
+
 const postOTP = async (otpCode: string) => {
   try {
-    const { data } = await axios.post(`${serverUrl}/auth/register/step-two/`, {
+    const data = await axios.post(`${serverUrl}/auth/register/step-two/`, {
       temp_token: localStorage.getItem("temp_token"),
       otp_code: otpCode,
     });
-    console.log("Data:", data);
-    localStorage.setItem("temp_token", data.temp_token);
+    console.log("Data:", data.data);
+    return data;
   } catch (error) {
     console.error("Error:", error);
   }
 };
-// #endregion
 
 const SignupForm = () => {
+  const [showOtpForm, setShowOtpForm] = useState(false);
+
   const phoneFormik = useFormik({
     initialValues: {
       phoneNumber: "",
     },
-    onSubmit: (values) => {
-      postPhoneNumber(values.phoneNumber);
+    onSubmit: async (values) => {
+      const result = await postPhoneNumber(values.phoneNumber);
+      if (result) {
+        setShowOtpForm(true);
+      }
     },
     validationSchema: phoneValidation,
   });
@@ -49,8 +53,12 @@ const SignupForm = () => {
     initialValues: {
       otp: "",
     },
-    onSubmit: (values) => {
-      postOTP(values.otp);
+    onSubmit: async (values) => {
+      const result = await postOTP(values.otp);
+      if (result?.status === 201) {
+        setCookie("refresh", result.data.refresh);
+        setCookie("access", result.data.access);
+      }
     },
     validationSchema: otpValidation,
   });
@@ -75,23 +83,26 @@ const SignupForm = () => {
         <button type="submit">Submit</button>
       </form>
       {/* #endregion */}
-      {/* #region Get_OTP_Code */}
-      <form onSubmit={otpFormik.handleSubmit} className="hidden otpFrom">
-        <label htmlFor="otp">OTP Code</label>
-        <input
-          id="otp"
-          name="otp"
-          type="tel"
-          onChange={otpFormik.handleChange}
-          onBlur={otpFormik.handleBlur}
-          value={otpFormik.values.otp}
-        />
-        {otpFormik.touched.otp && otpFormik.errors.otp ? (
-          <div style={{ color: "red" }}>{otpFormik.errors.otp}</div>
-        ) : null}
 
-        <button type="submit">Submit</button>
-      </form>
+      {/* #region Get_OTP_Code */}
+      {showOtpForm && (
+        <form onSubmit={otpFormik.handleSubmit}>
+          <label htmlFor="otp">OTP Code</label>
+          <input
+            id="otp"
+            name="otp"
+            type="tel"
+            onChange={otpFormik.handleChange}
+            onBlur={otpFormik.handleBlur}
+            value={otpFormik.values.otp}
+          />
+          {otpFormik.touched.otp && otpFormik.errors.otp ? (
+            <div style={{ color: "red" }}>{otpFormik.errors.otp}</div>
+          ) : null}
+
+          <button type="submit">Submit</button>
+        </form>
+      )}
       {/* #endregion */}
     </>
   );
