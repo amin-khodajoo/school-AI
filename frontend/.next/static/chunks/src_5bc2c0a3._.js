@@ -38,6 +38,7 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$auth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/auth.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$domain$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/domain.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/axios/lib/axios.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$formik$2f$dist$2f$formik$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/formik/dist/formik.esm.js [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
@@ -45,75 +46,64 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-// #region test
-const Post = async (number)=>{
-    const phoneNumber = {
-        "phone_number": "".concat(number)
-    };
+;
+const postPhoneNumber = async (phoneNumber)=>{
     try {
-        const response = await fetch("".concat(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$domain$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["serverUrl"], "/auth/login/step-one/"), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(phoneNumber)
+        const { data } = await __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].post("".concat(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$domain$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["serverUrl"], "/auth/login/step-one/"), {
+            phone_number: phoneNumber
         });
-        console.log('Status:', response.status);
-        const data = await response.json();
-        console.log('Data:', data);
-        return data;
+        console.log(data);
+        console.log("Status:", data.status);
     } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
     }
 };
-_c = Post;
-// #endregion
+const postOTP = ()=>{};
 const LoginForm = ()=>{
     _s();
-    const formik = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$formik$2f$dist$2f$formik$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFormik"])({
+    const phoneFormik = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$formik$2f$dist$2f$formik$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFormik"])({
         initialValues: {
             phoneNumber: ""
         },
         onSubmit: {
-            "LoginForm.useFormik[formik]": (values)=>{
-                // alert(JSON.stringify(values, null, 2));
+            "LoginForm.useFormik[phoneFormik]": (values)=>{
                 console.log(values.phoneNumber);
-                Post(values.phoneNumber);
+                postPhoneNumber(values.phoneNumber);
             }
-        }["LoginForm.useFormik[formik]"],
+        }["LoginForm.useFormik[phoneFormik]"],
         validationSchema: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$auth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"]
     });
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-        onSubmit: formik.handleSubmit,
+        onSubmit: phoneFormik.handleSubmit,
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                 htmlFor: "phoneNumber",
                 children: "Phone Number"
             }, void 0, false, {
                 fileName: "[project]/src/app/(auth)/login/page.tsx",
-                lineNumber: 50,
+                lineNumber: 37,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                 id: "phoneNumber",
                 name: "phoneNumber",
                 type: "tel",
-                onChange: formik.handleChange,
-                onBlur: formik.handleBlur,
-                value: formik.values.phoneNumber
+                onChange: phoneFormik.handleChange,
+                onBlur: phoneFormik.handleBlur,
+                value: phoneFormik.values.phoneNumber
             }, void 0, false, {
                 fileName: "[project]/src/app/(auth)/login/page.tsx",
-                lineNumber: 51,
+                lineNumber: 38,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
-            formik.touched.phoneNumber && formik.errors.phoneNumber ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            phoneFormik.touched.phoneNumber && phoneFormik.errors.phoneNumber ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
                     color: "red"
                 },
-                children: formik.errors.phoneNumber
+                children: phoneFormik.errors.phoneNumber
             }, void 0, false, {
                 fileName: "[project]/src/app/(auth)/login/page.tsx",
-                lineNumber: 60,
+                lineNumber: 47,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)) : null,
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -121,26 +111,25 @@ const LoginForm = ()=>{
                 children: "Submit"
             }, void 0, false, {
                 fileName: "[project]/src/app/(auth)/login/page.tsx",
-                lineNumber: 63,
+                lineNumber: 50,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/(auth)/login/page.tsx",
-        lineNumber: 49,
+        lineNumber: 36,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };
-_s(LoginForm, "B/4rI4IXClQ7sG7psKj+pOuRe5Q=", false, function() {
+_s(LoginForm, "qmlkwkLMFXopmfMs+pEZlUSAaHM=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$formik$2f$dist$2f$formik$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFormik"]
     ];
 });
-_c1 = LoginForm;
+_c = LoginForm;
 const __TURBOPACK__default__export__ = LoginForm;
-var _c, _c1;
-__turbopack_context__.k.register(_c, "Post");
-__turbopack_context__.k.register(_c1, "LoginForm");
+var _c;
+__turbopack_context__.k.register(_c, "LoginForm");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }

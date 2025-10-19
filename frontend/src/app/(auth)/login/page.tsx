@@ -2,62 +2,60 @@
 
 import auth from "@/components/auth";
 import { serverUrl } from "@/components/domain";
-import { log } from "console";
+import axios from "axios";
 import { useFormik } from "formik";
 
-
-
-// #region test
-const Post = async (number:string) => {
-  const phoneNumber = {"phone_number": `${number}`};
-  
+const postPhoneNumber = async (phoneNumber: string) => {
   try {
-    const response = await fetch(`${serverUrl}/auth/login/step-one/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(phoneNumber)
+    const { data } = await axios.post(`${serverUrl}/auth/login/step-one/`, {
+      phone_number: phoneNumber,
     });
 
-    console.log('Status:', response.status);
-    
-    const data = await response.json();
-    console.log('Data:', data);
-    
-    
-    
-    return data;
+    console.log(data)
+    console.log("Status:", data.status);
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
   }
-}
-// #endregion
+};
+
+const postOTP = () => {};
 
 const LoginForm = () => {
-  const formik = useFormik({
+  const phoneFormik = useFormik({
     initialValues: {
       phoneNumber: "",
     },
     onSubmit: (values) => {
-      // alert(JSON.stringify(values, null, 2));
       console.log(values.phoneNumber);
-      Post(values.phoneNumber);
+      postPhoneNumber(values.phoneNumber);
     },
     validationSchema: auth,
   });
 
+  const phoneFormik = useFormik({
+    initialValues: {
+      otpCode: "",
+    },
+    onSubmit: (values) => {
+      console.log(values.otpCode);
+      postPhoneNumber(values.otpCode);
+    },
+    validationSchema: 
+  });
+
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={phoneFormik.handleSubmit}>
       <label htmlFor="phoneNumber">Phone Number</label>
       <input
         id="phoneNumber"
         name="phoneNumber"
         type="tel"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.phoneNumber}
+        onChange={phoneFormik.handleChange}
+        onBlur={phoneFormik.handleBlur}
+        value={phoneFormik.values.phoneNumber}
       />
-      {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
-        <div style={{ color: "red" }}>{formik.errors.phoneNumber}</div>
+      {phoneFormik.touched.phoneNumber && phoneFormik.errors.phoneNumber ? (
+        <div style={{ color: "red" }}>{phoneFormik.errors.phoneNumber}</div>
       ) : null}
 
       <button type="submit">Submit</button>

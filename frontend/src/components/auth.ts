@@ -6,6 +6,10 @@ const auth = Yup.object().shape({
     .required("شماره موبایل الزامی است"),
 });
 
+const otpValidation = Yup.object().shape({
+  
+})
+
 export default auth;
 
 

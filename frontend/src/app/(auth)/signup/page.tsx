@@ -3,7 +3,6 @@
 import auth from "@/components/auth";
 import { serverUrl } from "@/components/domain";
 import { useFormik } from "formik";
-import { log } from "node:console";
 
 
 // #region test
